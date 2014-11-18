@@ -1,0 +1,7 @@
+
+public class EmbeddedPassword {
+
+	public ArrayList<String> embeddedPassword(String s){
+		
+	}
+}

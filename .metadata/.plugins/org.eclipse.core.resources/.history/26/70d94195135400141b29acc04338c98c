@@ -1,0 +1,11 @@
+
+public class TrinaryTreeNode {
+	int val;
+	TrinaryTreeNode left;
+	TrinaryTreeNode mid;
+	TrinaryTreeNode right;
+	
+	public TrinaryTreeNode(int val){
+		this.val = val;
+	}
+}

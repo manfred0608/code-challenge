@@ -1,0 +1,30 @@
+
+public class LongestDelimiter {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	public String findLongestDelimiter(String s){
+		if(s == null || s.length() == 0)
+			return null;
+		
+		int len = s.length() / 2;
+		
+		//Since we want to find the longest, start from the possible longest length
+		for(int i = len; i > 0; i++){			
+			for(int j = 1; j <= len - 2 * i; j++){
+				for(int k = j + i + 1; k < s.length() - i; k++){
+					if(j + i == s.length() - 1 || k + i == s.length() - 1)
+						continue;
+					
+					if(s.substring(j, j + i).equals(s.substring(k, k + i)))
+						return s.substring(j, j + i);
+				}
+			}
+		}
+		
+		return null;
+	}
+}

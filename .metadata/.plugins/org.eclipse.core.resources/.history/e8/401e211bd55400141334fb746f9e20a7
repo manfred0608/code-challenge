@@ -1,0 +1,14 @@
+import java.util.ArrayList;
+
+
+public class EmbeddedPassword {
+
+	public ArrayList<String> embeddedPassword(String s){
+		int N = 4;
+		if(s == null || s.length() < N * N)
+			return new ArrayList<String>();
+		
+		ArrayList<String> res = new ArrayList<String>();
+		int end = (int)Math.sqrt(s.length());
+	}
+}

@@ -1,0 +1,166 @@
+/**
+ * Implements a tri-node tree similar to a binary tree but with three nodes.
+ * Recursive delete and insert is cheap in implementation but highly cost of
+ * stack when dealing with a tree with hundreds of thousands of levels It is
+ * even worse when the tree is huge imbalanced. So I choose iteration over
+ * recursion in my implementation.
+ * 
+ * 
+ * Note: It is not clearly stated in the description whether it is a binary
+ * search tree or just a binary tree. But intuitively, I speculate it is a
+ * trinary search tree after seeing the examples.
+ * 
+ * @author Xuezi Zhang
+ *
+ */
+public class TrinaryTree {
+	private TrinaryTreeNode head;
+
+	public TrinaryTreeNode getHead() {
+		return head;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int[] data = { 5, 4, 9, 5, 7, 2, 2 };
+
+		TrinaryTree test = new TrinaryTree();
+		for (int i = 0; i < data.length; i++) {
+			test.insert(data[i]);
+		}
+		try {
+			test.delete(2);
+			test.delete(5);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return;
+	}
+
+	public void delete(int val) throws Exception {
+		if (head == null)
+			throw new Exception("Cannot delete empty tree!");
+
+		TrinaryTreeNode cur = head;
+		TrinaryTreeNode prev = null;
+		// dfs to find the node for deleting iteratively
+		while (cur != null) {
+			prev = cur;
+			if (val < cur.val)
+				cur = cur.left;
+			else if (val == cur.val)
+				break;
+			else
+				cur = cur.right;
+		}
+
+		// if we cannot find such a node
+		if (cur == null) {
+			throw new Exception("Node not in the tree!");
+		}
+
+		// the tree only has mid node
+		if (cur == head) {
+			cur.mid.left = head.left;
+			cur.mid.right = head.right;
+			head = cur.mid;
+			return;
+		}
+
+		// if there is mid node equals to the current node
+		// delete the current equals to delete its mid node
+		if (cur.mid != null) {
+			cur.mid = cur.mid.mid;
+			return;
+		}
+
+		// If the node is the leaf node, just delete it without any extra work
+		if (cur.left == null && cur.right == null) {
+			// single node tree
+			if (prev == null)
+				head = null;
+			if (prev.right == cur)
+				prev.right = null;
+			if (prev.left == cur)
+				prev.left = null;
+		} else if (cur.left == null) {
+			// only left node is null, delete the node
+			// by assigning the new value of the right node
+			// connect the parent node with his right node
+			cur.val = cur.right.val;
+			cur.right = cur.right.right;
+			cur.left = cur.right.left;
+		} else if (cur.right == null) {
+			// only right node is null, delete the node
+			// by assigning the new value of the left node
+			// connect the parent node with his left node
+			cur.val = cur.left.val;
+			cur.right = cur.left.right;
+			cur.left = cur.left.left;
+		} else {
+			// both left and right node is not null
+			// replace the node with the minimum node on the right half
+			TrinaryTreeNode top = cur.right;
+			TrinaryTreeNode parent = cur;
+			while (top.left != null) {
+				parent = top;
+				top = top.left;
+			}
+			parent.left = null;
+			cur.val = top.val;
+		}
+	}
+
+	// normal iteratively insert
+	public void insert(int val) {
+		// empty tree
+		if (head == null) {
+			head = new TrinaryTreeNode(val);
+			return;
+		}
+
+		TrinaryTreeNode cur = head;
+		TrinaryTreeNode prev = null;
+
+		// find the position of new node with dfs
+		while (cur != null) {
+			prev = cur;
+			if (val < cur.val)
+				cur = cur.left;
+			else if (val == cur.val) {
+				cur = cur.mid;
+			} else
+				cur = cur.right;
+		}
+
+		if (prev.val < val)
+			prev.right = new TrinaryTreeNode(val);
+		else if (prev.val > val)
+			prev.left = new TrinaryTreeNode(val);
+		else
+			prev.mid = new TrinaryTreeNode(val);
+	}
+
+	public TrinaryTree(TrinaryTreeNode head) {
+		this.head = head;
+	}
+
+	public TrinaryTree() {
+		// TODO Auto-generated constructor stub
+	}
+
+	// Inner class for modelling the tree node class
+	public class TrinaryTreeNode {
+		int val;
+		TrinaryTreeNode left;
+		TrinaryTreeNode mid;
+		TrinaryTreeNode right;
+
+		public TrinaryTreeNode(int val) {
+			this.val = val;
+		}
+	}
+
+}

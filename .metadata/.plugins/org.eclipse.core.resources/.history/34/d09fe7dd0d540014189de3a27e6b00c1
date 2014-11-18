@@ -1,0 +1,123 @@
+
+public class TrinaryTree {
+	private TrinaryTreeNode head;
+	
+	public TrinaryTreeNode getHead(){
+		return head;
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		TrinaryTreeNode head = new TrinaryTreeNode(5);
+		TrinaryTree test = new TrinaryTree(head);
+		
+		
+		try {
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public void delete(int val) throws Exception{
+		if(head == null)
+			throw new Exception("Cannot delete empty tree!");
+		
+		TrinaryTreeNode cur = head;
+		TrinaryTreeNode prev = null;
+		//dfs to find the node to delete
+		while(cur != null){
+			prev = cur;
+			if(val < cur.val)
+				cur = cur.left;
+			else if(val == cur.val)
+				break;
+			else
+				cur = cur.right;
+		}
+		
+		//if we cannot find such a node
+		if(cur == null){
+			throw new Exception("Node not in the tree!");
+		}
+		
+		//if it is a single node tree
+		if(cur == head){
+			head = cur.mid;
+			return;
+		}
+		
+		//if there is mid node equals to the current node
+		//delete the current equals to delete its mid node
+		if(cur.mid != null){
+			cur.mid = cur.mid.mid;
+			return;
+		}
+		
+		//If the node is the leaf node, just delete it without any extra work
+		if(cur.left == null && cur.right == null){
+			if(prev.right == cur)
+				prev.right = null;
+			if(prev.left == null)
+				prev.left = null;
+		}else if(cur.left == null){
+			//only left node is null, delete the node
+			//by assigning the new value of the right node
+			//connect the parent node with his right node
+			cur.val = cur.right.val;
+			cur.right = cur.right.right;
+			cur.left = cur.right.left;
+		}else if(cur.right == null){
+			//only right node is null, delete the node
+			//by assigning the new value of the left node
+			//connect the parent node with his left node
+			cur.val = cur.left.val;
+			cur.right = cur.left.right;
+			cur.left = cur.left.left;
+		}else{
+			//both left and right node is not null
+			//replace the node with the minimum node on the right half
+			TrinaryTreeNode top = cur.right;
+			TrinaryTreeNode parent = cur;
+			while(top.left != null){
+				parent = top;
+				top = top.left;
+			}
+			parent.left = null;
+			cur.val = top.val;
+		}		
+	}
+	
+	public void insert(int val){
+		if(head == null)
+			head = new TrinaryTreeNode(val);
+		
+		TrinaryTreeNode cur = head;
+		TrinaryTreeNode prev = null;
+		
+		while(cur != null){
+			prev = cur;
+			if(val < cur.val)
+				cur = cur.left;
+			else if(val == cur.val){
+				cur = cur.mid;
+			}
+			else
+				cur = cur.right;
+		}
+		
+		if(prev.val < val)
+			prev.right = new TrinaryTreeNode(val);
+		else if(prev.val > val)
+			prev.left = new TrinaryTreeNode(val);
+		else
+			prev.mid = new TrinaryTreeNode(val);
+	}
+	
+	public TrinaryTree(TrinaryTreeNode head){
+		this.head = head;
+	}
+}

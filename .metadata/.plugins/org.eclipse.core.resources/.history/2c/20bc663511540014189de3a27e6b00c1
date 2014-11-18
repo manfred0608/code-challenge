@@ -1,0 +1,57 @@
+public class StringToLong {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		try {
+			System.out.println(stringToLong("+1L"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static long stringToLong(String s) throws Exception {
+		if (s == null || s.length() == 0)
+			return 0;
+
+		int base = 1;
+		long res = 0;
+
+		char startC = s.charAt(0);
+		char endC = s.charAt(s.length() - 1);
+
+		boolean flag = false;
+		int start = 0;
+		int end = s.length() - 1;
+
+		//the input string can have pos/neg flag
+		if (startC == '-' || startC == '+') {
+			start += 1;
+			base = startC == '-' ? -1 : 1;
+		}
+		//the input string can have 'L' or 'l' as long type indicator
+		if (endC == 'L' || endC == 'l')
+			end -= 1;
+
+		for (int i = start; i <= end; i++) {
+			if(i == start)
+				flag = true;
+			
+			int cur = s.charAt(i) - '0';
+			//check if any digit is invalid
+			if (cur < 0 || cur > 9)
+				throw new Exception("Input Not Valid!");
+
+			long prev = res;
+			res = 10 * res + cur;
+			if (prev > res)
+				throw new Exception("Number Range Overflow!");
+		}
+
+		if (flag)
+			return res * base;
+		else
+			throw new Exception("Input Not Valid!");
+	}
+}

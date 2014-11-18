@@ -1,0 +1,25 @@
+
+public class Jumper {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public int findLongestPath(int[][] matrix){
+		if(matrix == null || matrix.length == 0)
+			return 0;
+		
+		int len = matrix.length;
+		
+		for(int i = 0; i < len; i++){
+			for(int j = 0; j < len; j++){
+				if()
+			}
+		}
+	}
+	
+	public void recur(){
+		
+	}
+}

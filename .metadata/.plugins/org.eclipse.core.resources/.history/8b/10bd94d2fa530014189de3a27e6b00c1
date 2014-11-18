@@ -1,0 +1,7 @@
+
+public class TrinaryTreeNode {
+	int val;
+	TrinaryTreeNode left;
+	TrinaryTreeNode mid;
+	TrinaryTreeNode mid
+}

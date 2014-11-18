@@ -1,0 +1,7 @@
+INDEX VERSION 1.127+/Users/manfred/Documents/workspace/code_challenge/.metadata/.plugins/org.eclipse.jdt.core
+2282601125.index
+2477570793.index
+2174173614.index
+46225343.index
+487354267.index
+1830454016.index
